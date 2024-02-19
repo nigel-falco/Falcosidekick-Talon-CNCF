@@ -96,7 +96,7 @@ While we provide additional rules for SSH or cloud vendor-specific credentials, 
 
 ```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=5116b3ca0c5fad246cc41ca67938a315
 ```
-sudo cat /etc/shadow > /dev/null
+cat /etc/shadow > /dev/null
 ```
 
 ```
