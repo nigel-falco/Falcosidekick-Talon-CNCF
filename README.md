@@ -173,7 +173,7 @@ Scale down the cluster
 eksctl get nodegroups --cluster falco-cluster
 ```
 ```
-eksctl scale nodegroup --cluster falco-cluster --name ng-03dfe2da --nodes 0
+eksctl scale nodegroup --cluster falco-cluster --name ng-58324369 --nodes 0
 ```
 
 Kubecolor
