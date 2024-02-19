@@ -121,7 +121,7 @@ rm rules.yaml
 ```
 
 ```
-wget https://raw.githubusercontent.com/nigel-falco/falco-talon-testing/main/falco-talon/rules.yaml
+wget https://raw.githubusercontent.com/nigel-falco/Falcosidekick-Talon-CNCF/main/rules.yaml
 ```
 
 Deploy Talon into the newly created ```falco``` network namespace:
