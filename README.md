@@ -253,3 +253,7 @@ helm upgrade falco falcosecurity/falco --namespace falco \
   --set "falco.rules_file={/etc/falco/falco_rules.yaml,/etc/falco/falco-incubating_rules.yaml,/etc/falco/falco-sandbox_rules.yaml,/etc/falco/rules.d}" \
   -f custom-rules.yaml
 ```
+
+<img width="1409" alt="Screenshot 2024-02-19 at 16 39 22" src="https://github.com/nigel-falco/Falcosidekick-Talon-CNCF/assets/152274017/e98bc132-e218-4e34-9c77-09263ea335b4">
+
+
