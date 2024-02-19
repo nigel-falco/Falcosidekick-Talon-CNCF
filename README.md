@@ -194,7 +194,7 @@ kubectl get networkpolicy dodgy-pod -o yaml
 kubectl delete networkpolicy dodgy-pod
 ```
 
-## Pod created specifically to 
+## Pod Run as Root User
 
 ```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=353fe5313eb9fe14878f7eaae04550a3
 ```
