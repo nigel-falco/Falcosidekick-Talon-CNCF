@@ -57,6 +57,8 @@ wget https://raw.githubusercontent.com/nigel-falco/falco-talon-testing/main/falc
 
 ## Install Falco and FalcoSideKick
 
+Docs Page: https://docs.falco-talon.org/docs/installation_usage/falcosidekick/
+
 ```
 helm install falco falcosecurity/falco --namespace falco \
   --create-namespace \
