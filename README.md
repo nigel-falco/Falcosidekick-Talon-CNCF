@@ -148,7 +148,7 @@ kubectl edit pod dodgy-pod -n default
 ```
 
 Back in the first window, run: <br/>
-```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=1a24c2ccf3a790d0c04e3858f7439ab4
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=1a24c2ccf3a790d0c04e3858f7439ab4 <br/>
 ```Action:``` https://docs.falco-talon.org/docs/actionners/list/#kuberneteslabelize
 ```
 kubectl exec -it dodgy-pod -- bash
@@ -168,7 +168,7 @@ cd xmrig-6.16.4
 ```
 ./xmrig --donate-level 8 -o xmr-us-east1.nanopool.org:14433 -u 422skia35WvF9mVq9Z9oCMRtoEunYQ5kHPvRqpH1rGCv1BzD5dUY4cD8wiCMp4KQEYLAN1BuawbUEJE99SNrTv9N9gf2TWC --tls --coin monero
 ```
-```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=b22719ac071b8de3c7e0ec92dcab21cb
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=b22719ac071b8de3c7e0ec92dcab21cb <br/>
 ```Action:``` https://docs.falco-talon.org/docs/actionners/list/#kubernetesnetworkpolicy
 ```
 ./xmrig -o stratum+tcp://xmr.pool.minergate.com:45700 -u lies@lies.lies -p x -t 2
@@ -200,7 +200,7 @@ kubectl cp dodgy-pod:xmrig-6.16.4-linux-static-x64.tar.gz ~/desktop/xmrig-6.16.4
 kubectl exec -it dodgy-pod -- bash
 ```
 
-```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=0d2e8a0dd3369a030f7acfaab682ad92
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=0d2e8a0dd3369a030f7acfaab682ad92 <br/>
 ```Action:``` https://docs.falco-talon.org/docs/actionners/list/#kubernetesterminate
 ```
 curl 52.21.188.179
