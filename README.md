@@ -55,7 +55,7 @@ However, I see to be breaking the deployment with the below ```custom-rules.yaml
 wget https://raw.githubusercontent.com/nigel-falco/falco-talon-testing/main/falco-talon/custom-rules.yaml
 ```
 
-## Install Falco and FalcoSideKick
+## Install Falco and Falcosidekick
 
 Docs Page: https://docs.falco-talon.org/docs/installation_usage/falcosidekick/
 
@@ -73,11 +73,7 @@ helm install falco falcosecurity/falco --namespace falco \
   -f custom-rules.yaml
 ```
 
-<img width="1075" alt="Screenshot 2024-01-16 at 11 37 38" src="https://github.com/nigel-falco/falco-talon-testing/assets/152274017/148ebf95-65c9-4e63-a4ea-b5145017ff5e">
-
-
-
-## Install Falco Talon
+## Install Falco Talon to React to Falcosidekick Outputs
 
 ```
 git clone https://github.com/Issif/falco-talon.git
