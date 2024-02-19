@@ -165,6 +165,14 @@ kubectl get networkpolicy dodgy-pod -o yaml
 kubectl delete networkpolicy dodgy-pod
 ```
 
+## Pod created specifically to 
+
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=353fe5313eb9fe14878f7eaae04550a3
+```
+kubectl run nigelRunAsRoot --image=alpine --restart=Never --rm -it -- /bin/sh -c 'echo "Tampering with log file" > /var/log/access.log; cat /dev/null > /var/log/access.log'
+```
+
+
 ## Expose the Falcosidekick UI
 ```
 kubectl port-forward svc/falco-falcosidekick-ui -n falco 2802 --insecure-skip-tls-verify
