@@ -74,6 +74,22 @@ helm install falco falcosecurity/falco --namespace falco \
   -f custom-rules.yaml
 ```
 
+## Falco detections before Falcosidekick UI
+Shell into a Kubernetes workload:
+```
+kubectl exec -it dodgy-pod -- bash
+```
+To do so, let's simulate someone trying to sniff for SSH keys. <br/>
+Run find on the root home dir, querying for "```id_rsa```":
+```
+find /root -name "id_rsa"
+```
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=55941ff25a7d8c6253b5a17e4ed20d30
+Print to stdout the logs with:
+```
+kubectl logs -n falco -l app.kubernetes.io/name=falco | grep "Warning Grep private keys"
+```
+
 ## Install Falco Talon to React to Falcosidekick Outputs
 
 ```
