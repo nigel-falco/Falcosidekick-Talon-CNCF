@@ -137,7 +137,7 @@ cd xmrig-6.16.4
 ## Testing the Script response action
 
 Copy file from a container and trigger a ```Kubernetes Client Tool Launched in Container``` detection in Falco: <br/>
-https://thomas.labarussias.fr/falco-rules-explorer/?hash=bc5091ab0698e22b68d788e490e8eb66
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=bc5091ab0698e22b68d788e490e8eb66
 
 ```
 kubectl cp dodgy-pod:xmrig-6.16.4-linux-static-x64.tar.gz ~/desktop/xmrig-6.16.4-linux-static-x64.tar.gz
