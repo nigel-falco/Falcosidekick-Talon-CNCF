@@ -163,13 +163,19 @@ tar -xvf xmrig-6.16.4-linux-static-x64.tar.gz
 ```
 cd xmrig-6.16.4
 ```
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=3f01c102c6d26af968d5eb6b6777085d
+```
+./xmrig --donate-level 8 -o xmr-us-east1.nanopool.org:14433 -u 422skia35WvF9mVq9Z9oCMRtoEunYQ5kHPvRqpH1rGCv1BzD5dUY4cD8wiCMp4KQEYLAN1BuawbUEJE99SNrTv9N9gf2TWC --tls --coin monero
+```
 ```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=b22719ac071b8de3c7e0ec92dcab21cb
 ```
 ./xmrig -o stratum+tcp://xmr.pool.minergate.com:45700 -u lies@lies.lies -p x -t 2
 ```
-```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=3f01c102c6d26af968d5eb6b6777085d
 ```
-./xmrig --donate-level 8 -o xmr-us-east1.nanopool.org:14433 -u 422skia35WvF9mVq9Z9oCMRtoEunYQ5kHPvRqpH1rGCv1BzD5dUY4cD8wiCMp4KQEYLAN1BuawbUEJE99SNrTv9N9gf2TWC --tls --coin monero --background
+kubectl get networkpolicies -n default
+```
+```
+kubectl get networkpolicies dodgy-pod -n default -o yaml
 ```
 
 
