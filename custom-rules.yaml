@@ -47,3 +47,6 @@ customRules:
     - rule: Container Run as Root User
       enabled: true
       tags: [maturity_sandbox, owasp_k8s_T10, K01.01, insecure_workload, mitre_execution, T1610]
+
+    - rule: Detect outbound connections to common miner pool ports
+      enabled: true
