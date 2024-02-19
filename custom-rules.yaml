@@ -43,6 +43,9 @@ customRules:
     - rule: BPF Program Not Profiled
       enabled: false
 
+    - rule: Write below root
+      enabled: false
+
     # Enabling rules that are disabled by default
     - rule: Container Run as Root User
       enabled: true
