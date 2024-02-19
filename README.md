@@ -151,7 +151,7 @@ kubectl cp dodgy-pod:xmrig-6.16.4-linux-static-x64.tar.gz ~/desktop/xmrig-6.16.4
 kubectl exec -it dodgy-pod -- bash
 ```
 
-Installing a suspicious networking tool like telnet
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=0d2e8a0dd3369a030f7acfaab682ad92
 ```
 curl 52.21.188.179
 ```
