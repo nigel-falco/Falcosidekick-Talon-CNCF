@@ -40,3 +40,12 @@
       - k8s.ns.name!=kube-system, k8s.ns.name!=falco
   actions:
     - action: Disable outbound connections
+
+- rule: Outbound Connection to C2 Servers
+  match:
+    rules:
+      - Outbound Connection to C2 Servers
+    output_fields:
+      - k8s.ns.name!=kube-system, k8s.ns.name!=falco
+  actions:
+    - action: Terminate Pod
