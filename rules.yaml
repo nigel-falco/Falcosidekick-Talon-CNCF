@@ -32,7 +32,7 @@
   actions:
     - action: Labelize Pod as Suspicious
 
-- rule: Detect crypto miners using the Stratum protocol 
+- rule: Detect crypto miners using the Stratum protocol
   match:
     rules:
       - Detect crypto miners using the Stratum protocol
