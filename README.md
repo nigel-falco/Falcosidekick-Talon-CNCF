@@ -87,7 +87,20 @@ find /root -name "id_rsa"
 ```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=55941ff25a7d8c6253b5a17e4ed20d30
 Print to stdout the logs with:
 ```
-kubectl logs -n falco -l app.kubernetes.io/name=falco | grep "Warning Grep private keys"
+kubectl logs -f --tail=0 -n falco -c falco -l app.kubernetes.io/name=falco | grep 'Warning Grep private keys'
+```
+
+An attempt to read any sensitive file (e.g. files containing user/password/authentication information). <br/>
+In modern containerized cloud infrastructures, accessing traditional Linux sensitive files might be less relevant, yet it remains valuable for baseline detections. <br/>
+While we provide additional rules for SSH or cloud vendor-specific credentials, you can significantly enhance your security program by crafting custom rules for critical application credentials unique to your environment.
+
+```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=5116b3ca0c5fad246cc41ca67938a315
+```
+sudo cat /etc/shadow > /dev/null
+```
+
+```
+kubectl logs -f --tail=0 -n falco -c falco -l app.kubernetes.io/name=falco | grep 'Read sensitive file untrusted'
 ```
 
 ## Install Falco Talon to React to Falcosidekick Outputs
@@ -185,7 +198,7 @@ kubectl delete networkpolicy dodgy-pod
 
 ```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=353fe5313eb9fe14878f7eaae04550a3
 ```
-kubectl run nigelRunAsRoot --image=alpine --restart=Never --rm -it -- /bin/sh -c 'echo "Tampering with log file" > /var/log/access.log; cat /dev/null > /var/log/access.log'
+kubectl run nigelroot --image=alpine --restart=Never --rm -it -- /bin/sh -c 'echo "Tampering with log file" > /var/log/access.log; cat /dev/null > /var/log/access.log'
 ```
 
 
