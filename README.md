@@ -138,6 +138,15 @@ In the second window, run:
 ```
 kubectl get events -n default
 ```
+In the third window, check for Label changes in realtime:
+```
+kubectl get pods -n default --show-labels -w
+```
+You can remove the labels manually via ```kubectl edit``` command:
+```
+kubectl edit pod dodgy-pod -n default
+```
+
 Back in the first window, run: <br/>
 ```Rule:``` https://thomas.labarussias.fr/falco-rules-explorer/?hash=1a24c2ccf3a790d0c04e3858f7439ab4
 ```
