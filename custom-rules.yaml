@@ -1,0 +1,49 @@
+customRules:
+  custom-rules.yaml: |-
+    - rule: Outbound Connection to C2 Servers
+      desc: Detect outbound connection to command & control servers thanks to a list of IP addresses & a list of FQDN.
+      condition: outbound and fd.sip in (c2_server_ip_list)
+      output: Outbound connection to C2 server (c2_domain=%fd.sip.name c2_addr=%fd.sip c2_port=%fd.sport command=%proc.cmdline connection=%fd.name user=%user.name user_loginuid=%user.loginuid container_id=%container.id image=%container.image.repository)
+      priority: WARNING
+      tags: [host, container, network, mitre_command_and_control, TA0011]
+
+    - macro: outbound
+      condition: >
+        (((evt.type = connect and evt.dir=<) or
+          (evt.type in (sendto,sendmsg) and evt.dir=< and
+          fd.l4proto != tcp and fd.connected=false and fd.name_changed=true)) and
+        (fd.typechar = 4 or fd.typechar = 6) and
+        (fd.ip != "0.0.0.0" and fd.net != "127.0.0.0/8" and not fd.snet in (rfc_1918_addresses)) and
+        (evt.rawres >= 0 or evt.res = EINPROGRESS))
+
+    - macro: proc_name_exists
+      condition: (proc.name!="<NA>" and proc.name!="" and proc.name exists)
+
+    - list: c2_server_ip_list
+      items:
+        - "'52.21.188.179'"
+        - "'54.237.103.220'"
+
+    - list: rfc_1918_addresses
+      items: ['"10.0.0.0/8"', '"172.16.0.0/12"', '"192.168.0.0/16"']
+
+    - list: falco_containers
+      items: ["docker.io/issif/falco-talon"]
+
+    - list: white_listed_modules
+      items: []
+
+    # Disabling noissy Falco rules
+    - rule: Drop and execute new binary in container
+      enabled: false
+
+    - rule: Change thread namespace
+      enabled: false
+
+    - rule: BPF Program Not Profiled
+      enabled: false
+
+    # Enabling rules that are disabled by default
+    - rule: Container Run as Root User
+      enabled: true
+      tags: [maturity_sandbox, owasp_k8s_T10, K01.01, insecure_workload, mitre_execution, T1610]
