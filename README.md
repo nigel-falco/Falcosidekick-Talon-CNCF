@@ -257,6 +257,10 @@ helm upgrade falco falcosecurity/falco --namespace falco \
   -f custom-rules.yaml
 ```
 
+## Screenshots
+
 <img width="1409" alt="Screenshot 2024-02-19 at 16 39 22" src="https://github.com/nigel-falco/Falcosidekick-Talon-CNCF/assets/152274017/e98bc132-e218-4e34-9c77-09263ea335b4">
 
+<img width="1434" alt="Screenshot 2024-02-19 at 17 13 55" src="https://github.com/nigel-falco/Falcosidekick-Talon-CNCF/assets/152274017/6d607be7-51c5-4f5c-95fb-7d39a155a47c">
 
+<img width="1434" alt="Screenshot 2024-02-19 at 17 14 08" src="https://github.com/nigel-falco/Falcosidekick-Talon-CNCF/assets/152274017/51cadfb8-3945-42cf-a194-751106e1ae15">
