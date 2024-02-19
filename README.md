@@ -177,6 +177,9 @@ kubectl get networkpolicies -n default
 ```
 kubectl get networkpolicies dodgy-pod -n default -o yaml
 ```
+```
+kubectl delete networkpolicy dodgy-pod
+```
 
 
 ## Testing the Script response action
@@ -200,13 +203,9 @@ kubectl exec -it dodgy-pod -- bash
 curl 52.21.188.179
 ```
 
-Check to confirm the IP address was blocked:
+Check to confirm the pod was gracefully terminates
 ```
-kubectl get networkpolicy dodgy-pod -o yaml
-```
-
-```
-kubectl delete networkpolicy dodgy-pod
+kubectl get pods -n default
 ```
 
 ## Pod Run as Root User
