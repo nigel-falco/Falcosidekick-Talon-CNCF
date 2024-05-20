@@ -50,18 +50,11 @@ eksctl create cluster --name falco-cluster --node-type t3.xlarge --nodes 1 --nod
 ## Create local directory for lab
 
 ```
-mkdir falco-response
+mkdir vilnius-demo
 ```
 
 ```
-cd falco-response
-```
-
-Download the ```custom-rules.yaml``` file. <br/>
-This enables the originally disabled ```Detect outbound connections to common miner pool ports``` Falco Rule. <br/>
-However, I see to be breaking the deployment with the below ```custom-rules.yaml``` file, so I'm leaving it out for now.
-```
-wget https://raw.githubusercontent.com/nigel-falco/Falcosidekick-Talon-CNCF/main/custom-rules.yaml
+cd vilnius-demo
 ```
 
 ## Install Falco and Falcosidekick
@@ -111,31 +104,6 @@ cat /etc/shadow > /dev/null
 kubectl logs -f --tail=0 -n falco -c falco -l app.kubernetes.io/name=falco | grep 'Read sensitive file untrusted'
 ```
 
-## Install Falco Talon to React to Falcosidekick Outputs
-
-```
-git clone https://github.com/Issif/falco-talon.git
-```
-
-The Talon rules file ```rules.yaml``` is located in the ```helm``` directory:
-```
-cd falco-talon/deployment/helm/
-```
-
-Before installing, let's enforce the custom response actions for OWASP T10 framework.
-
-```
-rm rules.yaml
-```
-
-```
-wget https://raw.githubusercontent.com/nigel-falco/Falcosidekick-Talon-CNCF/main/rules.yaml
-```
-
-Deploy Talon into the newly created ```falco``` network namespace:
-```
-helm install falco-talon . -n falco
-```
 
 ## Create an insecure workload
 
@@ -354,7 +322,7 @@ Remove (rm) the existing, default rules file:
 rm rules.yaml
 ```
 
-Download (wget) the updated Talon rule:
+Download the updated Talon rule:
 ```
 wget https://raw.githubusercontent.com/nigel-falco/oss-security-workshop/main/runtime-security/rules.yaml
 ```
