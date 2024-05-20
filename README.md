@@ -307,17 +307,17 @@ this is why the collector is available in a different socket
 
 Track the progress of the Falco deployment until you see `READY: 2/2` and `STATUS: Running`:
 ```bash
-kubectl get pods -n falco -w | grep Running
+kubectl get pods -n falco -w
 ```
 
 Progress with the lab when the below command confirms `pod/<pod_name> condition met`:
 ```bash
-kubectl wait pods --for=condition=Ready -l app.kubernetes.io/name=falco -n falco --timeout=150s | grep met
+kubectl wait pods --for=condition=Ready -l app.kubernetes.io/name=falco -n falco --timeout=150s
 ```
 
 Once the pod is ready, run the following command to see the logs:
 ```bash
-kubectl logs -l app.kubernetes.io/name=falco -n falco -c falco | grep -E "syscall|Kernel"
+kubectl logs -l app.kubernetes.io/name=falco -n falco -c falco
 ```
 
 The logs confirm that Falco and its rules have been loaded correctly into the [Linux Kernel](https://en.wikipedia.org/wiki/Linux_kernel).
@@ -366,7 +366,7 @@ helm install falco-talon . -n falco
 
 If the falco-talon pods are running, we can progress to the next lab scenario:
 ```bash
-kubectl get pods -n falco -w | grep talon
+kubectl get pods -n falco -w
 ```
 
 If Talon is up-and-running, let's proceed to the next task!
@@ -425,9 +425,4 @@ timeout 30s ./xmrig --donate-level 8 -o xmr-us-east1.nanopool.org:14433 -u 422sk
 Or trigger a Falco detect based on the ```Stratum protocol``` usage:
 ```
 timeout 30s ./xmrig -o stratum+tcp://xmr.pool.minergate.com:45700 -u lies@lies.lies -p x -t 2
-```
-
-Confirm that Falco actually detected the stratum protocol
-```
-kubectl logs -l app.kubernetes.io/name=falco -n falco -c falco | grep "xmr"
 ```
