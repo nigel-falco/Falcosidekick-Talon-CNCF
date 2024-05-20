@@ -272,3 +272,170 @@ helm upgrade falco falcosecurity/falco --namespace falco \
 <img width="1434" alt="Screenshot 2024-02-19 at 17 13 55" src="https://github.com/nigel-falco/Falcosidekick-Talon-CNCF/assets/152274017/6d607be7-51c5-4f5c-95fb-7d39a155a47c">
 
 <img width="1434" alt="Screenshot 2024-02-19 at 17 14 08" src="https://github.com/nigel-falco/Falcosidekick-Talon-CNCF/assets/152274017/51cadfb8-3945-42cf-a194-751106e1ae15">
+
+
+## Vilnius Demonstration
+
+Install Falco (Terminal 1)
+===
+
+Before installing any chart provided by this repository, add the [falcosecurity](https://github.com/falcosecurity/charts) Charts Repository:
+
+```bash
+helm repo add falcosecurity https://falcosecurity.github.io/charts
+helm repo update
+```
+
+Before installing Falco, let's download a `custom-rules.yaml` file to disable noisy Falco rules
+
+```bash
+wget https://raw.githubusercontent.com/nigel-falco/oss-security-workshop/main/runtime-security/custom-rules.yaml
+```
+
+Finally, proceed to install the Falco chart with the `-f` flag for the custom-rules.yaml file.
+
+```bash
+helm install falco falcosecurity/falco --namespace falco \
+  --create-namespace \
+  --set tty=true \
+  --set falcosidekick.enabled=true \
+  --set falcosidekick.webui.enabled=false \
+  --set falcosidekick.webui.redis.storageEnabled=false \
+	--set falcosidekick.config.webhook.address=http://falco-talon:2803 \
+	--set collectors.containerd.socket=/run/k3s/containerd/containerd.sock \
+  --set "falcoctl.config.artifact.install.refs={falco-rules:2,falco-incubating-rules:2,falco-sandbox-rules:2}" \
+  --set "falcoctl.config.artifact.follow.refs={falco-rules:2,falco-incubating-rules:2,falco-sandbox-rules:2}" \
+  --set "falco.rules_file={/etc/falco/falco_rules.yaml,/etc/falco/falco-incubating_rules.yaml,/etc/falco/falco-sandbox_rules.yaml,/etc/falco/rules.d}" \
+  -f custom-rules.yaml
+```
+
+This environment is using containerd instead of docker,
+this is why the collector is available in a different socket
+(The feature flag `--set tty=true` ensures we receive Falco alerts in real-time).
+
+Track the progress of the Falco deployment until you see `READY: 2/2` and `STATUS: Running`:
+```bash
+kubectl get pods -n falco -w | grep Running
+```
+
+Progress with the lab when the below command confirms `pod/<pod_name> condition met`:
+```bash
+kubectl wait pods --for=condition=Ready -l app.kubernetes.io/name=falco -n falco --timeout=150s | grep met
+```
+
+Once the pod is ready, run the following command to see the logs:
+```bash
+kubectl logs -l app.kubernetes.io/name=falco -n falco -c falco | grep -E "syscall|Kernel"
+```
+
+The logs confirm that Falco and its rules have been loaded correctly into the [Linux Kernel](https://en.wikipedia.org/wiki/Linux_kernel).
+
+Trigger a Falco Detection
+===
+
+Run the following command to trigger one of the [Falco rules](https://thomas.labarussias.fr/falco-rules-explorer/):
+```bash
+find /root -name "id_rsa"
+```
+
+Check that Falco correctly intercepted the potentially dangerous command:
+```bash
+kubectl logs -l app.kubernetes.io/name=falco -n falco -c falco | grep "find /root -name id_rsa"
+```
+
+
+Install Falco Talon
+===
+
+Git clone is used to target and create a copy of the [falco-talon](https://docs.falco-talon.org/docs/installation_usage/helm/) repository:
+```bash
+git clone https://github.com/falco-talon/falco-talon.git
+```
+
+Once downloaded, change directory to the Helm folder before running the ***helm install*** command:
+```bash
+cd falco-talon/deployment/helm/
+```
+
+Remove (rm) the existing, default rules file:
+```
+rm rules.yaml
+```
+
+Download (wget) the updated Talon rule:
+```
+wget https://raw.githubusercontent.com/nigel-falco/oss-security-workshop/main/runtime-security/rules.yaml
+```
+
+Install Falco Talon with the newly-modified rules file
+```
+helm install falco-talon . -n falco
+```
+
+If the falco-talon pods are running, we can progress to the next lab scenario:
+```bash
+kubectl get pods -n falco -w | grep talon
+```
+
+If Talon is up-and-running, let's proceed to the next task!
+You can of course uninstall Falco Talon at any time with no associated downtime for Falco:
+
+```
+helm uninstall falco-talon -n falco
+```
+
+Let's test Falco Talon
+===
+
+In the **Check Events** tab, let's watch for events in the **default** namespace
+```
+kubectl get events -n default -w
+```
+
+Let's create the Ubuntu pod in the original **Terminal** window:
+```
+kubectl apply -f https://raw.githubusercontent.com/nigel-falco/oss-security-workshop/main/k03-rbac/ubuntu-pod.yaml
+```
+
+Back in the ***Ubuntu Pod*** tab, shell into a container with label ***app=ubuntu*** (Talon should add the **new labels in Check Events tab**):
+```
+kubectl exec -it $(kubectl get pods -l app=ubuntu -o jsonpath='{.items[0].metadata.name}') -- /bin/bash
+```
+
+If you don't see the appropriate output in the 'Events' tab, check the Talon logs:
+```
+kubectl logs -n falco -l app.kubernetes.io/instance=falco-talon --max-log-requests=10
+```
+
+This proves that Talon is working !!!
+
+Let's mitigate threats with Falco Talon
+===
+
+In **Check Events** tab, we should be still watching for events in the **default** namespace
+```
+kubectl get events -n default -w
+```
+In ***Falco Talon*** tab, let's install a cryptominer and use the stratum protocol to force the packet capture
+```
+curl -OL https://github.com/xmrig/xmrig/releases/download/v6.16.4/xmrig-6.16.4-linux-static-x64.tar.gz
+```
+```
+tar -xvf xmrig-6.16.4-linux-static-x64.tar.gz
+```
+```
+cd xmrig-6.16.4
+```
+Communicate with the ```known cryptomining C2 servers``` directly:
+```
+timeout 30s ./xmrig --donate-level 8 -o xmr-us-east1.nanopool.org:14433 -u 422skia35WvF9mVq9Z9oCMRtoEunYQ5kHPvRqpH1rGCv1BzD5dUY4cD8wiCMp4KQEYLAN1BuawbUEJE99SNrTv9N9gf2TWC --tls --coin monero
+```
+Or trigger a Falco detect based on the ```Stratum protocol``` usage:
+```
+timeout 30s ./xmrig -o stratum+tcp://xmr.pool.minergate.com:45700 -u lies@lies.lies -p x -t 2
+```
+
+Confirm that Falco actually detected the stratum protocol
+```
+kubectl logs -l app.kubernetes.io/name=falco -n falco -c falco | grep "xmr"
+```
