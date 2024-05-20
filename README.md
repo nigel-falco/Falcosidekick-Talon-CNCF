@@ -232,11 +232,6 @@ kubectl run nigelroot --image=alpine --restart=Never --rm -it -- /bin/sh -c 'ech
 kubectl port-forward svc/falco-falcosidekick-ui -n falco 2802 --insecure-skip-tls-verify
 ```
 
-Talon can be removed at any time via:
-```
-helm uninstall falco-talon -n falco
-```
-
 Scale down the cluster
 ```
 eksctl get nodegroups --cluster falco-cluster
@@ -276,9 +271,6 @@ helm upgrade falco falcosecurity/falco --namespace falco \
 
 ## Vilnius Demonstration
 
-Install Falco (Terminal 1)
-===
-
 Before installing any chart provided by this repository, add the [falcosecurity](https://github.com/falcosecurity/charts) Charts Repository:
 
 ```bash
@@ -301,8 +293,8 @@ helm install falco falcosecurity/falco --namespace falco \
   --set falcosidekick.enabled=true \
   --set falcosidekick.webui.enabled=false \
   --set falcosidekick.webui.redis.storageEnabled=false \
-	--set falcosidekick.config.webhook.address=http://falco-talon:2803 \
-	--set collectors.containerd.socket=/run/k3s/containerd/containerd.sock \
+  --set falcosidekick.config.webhook.address=http://falco-talon:2803 \
+  --set collectors.containerd.socket=/run/k3s/containerd/containerd.sock \
   --set "falcoctl.config.artifact.install.refs={falco-rules:2,falco-incubating-rules:2,falco-sandbox-rules:2}" \
   --set "falcoctl.config.artifact.follow.refs={falco-rules:2,falco-incubating-rules:2,falco-sandbox-rules:2}" \
   --set "falco.rules_file={/etc/falco/falco_rules.yaml,/etc/falco/falco-incubating_rules.yaml,/etc/falco/falco-sandbox_rules.yaml,/etc/falco/rules.d}" \
