@@ -41,6 +41,14 @@ Create a node group since there are no worker nodes for our pods
 eksctl create nodegroup --cluster falco-cluster --node-type t3.xlarge --nodes 1 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
 ```
 
+## Create EKS Cluster with AWS VPC CNI
+
+```
+eksctl create cluster --name falco-cluster --node-type t3.xlarge --nodes 1 --nodes-min=0 --nodes-max=3 --max-pods-per-node 58
+```
+
+## Create local directory for lab
+
 ```
 mkdir falco-response
 ```
