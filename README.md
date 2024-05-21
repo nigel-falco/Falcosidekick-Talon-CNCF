@@ -400,4 +400,8 @@ Find AWS Credentials
 grep "aws_secret_access_key" /path/to/some/file
 ```
 
+Read sensitive file untrusted
+```
+sudo cat /etc/shadow > /dev/null
+```
 
