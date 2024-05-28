@@ -394,6 +394,17 @@ Or trigger a Falco detect based on the ```Stratum protocol``` usage:
 ./xmrig -o stratum+tcp://xmr.pool.minergate.com:45700 -u lies@lies.lies -p x -t 2
 ```
 
+## Helm Stuff for Labs
+```
+helm list --all-namespaces
+```
+
+```
+helm uninstall -n sysdig-agent    sysdig-agent
+```
+
+## Test commands for demo purposes
+
 Find AWS Credentials
 ```
 grep "aws_secret_access_key" /path/to/some/file
