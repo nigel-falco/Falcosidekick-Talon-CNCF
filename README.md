@@ -413,3 +413,8 @@ chmod +x kubectl
 mv kubectl /usr/local/bin/
 kubectl version --client
 ```
+
+Detect reconnaissance scripts
+```
+bash -c ./LinEnum.sh
+```
