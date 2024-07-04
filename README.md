@@ -456,3 +456,8 @@ helm install sysdig-agent --namespace sysdig-agent --create-namespace \
     --set clusterShield.cluster_shield.features.posture.enabled=true \
     sysdig/sysdig-deploy
 ```
+
+Scan workloads
+```
+SECURE_API_TOKEN=**** ./sysdig-cli-scanner --iac --apiurl https://us2.app.sysdig.com/secure $PWD/dodgy-pod.yaml
+```
