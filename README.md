@@ -457,7 +457,7 @@ helm install sysdig-agent --namespace sysdig-agent --create-namespace \
     sysdig/sysdig-deploy
 ```
 
-Scan workloads
+Scan local configuration files as-code
 ```
-SECURE_API_TOKEN=**** ./sysdig-cli-scanner --iac --apiurl https://us2.app.sysdig.com/secure $PWD/dodgy-pod.yaml
+SECURE_API_TOKEN=**** ./sysdig-cli-scanner --iac --apiurl https://us2.app.sysdig.com/secure /Users/nigeldouglas/Desktop/manifests/*.yaml --list-unsupported-resources
 ```
