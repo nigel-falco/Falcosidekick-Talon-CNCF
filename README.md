@@ -433,3 +433,26 @@ Detect reconnaissance scripts
 ```
 bash -c ./LinEnum.sh
 ```
+
+Sysdig agent helm installation
+```
+helm repo add sysdig https://charts.sysdig.com
+helm repo update
+helm install sysdig-agent --namespace sysdig-agent --create-namespace \
+    --set global.sysdig.accessKey=**** \
+    --set global.sysdig.region=us2 \
+    --set nodeAnalyzer.secure.vulnerabilityManagement.newEngineOnly=true \
+    --set global.kspm.deploy=true \
+    --set clusterShield.enabled=true \
+    --set kspmCollector.enabled=false \
+    --set clusterScanner.enabled=false \
+    --set admissionController.enabled=false \
+    --set global.clusterConfig.name=nigel-dora-cluster \
+    --set nodeAnalyzer.nodeAnalyzer.runtimeScanner.deploy=false \
+    --set nodeAnalyzer.nodeAnalyzer.benchmarkRunner.deploy=false \
+    --set clusterShield.cluster_shield.features.admission_control.enabled=true \
+    --set clusterShield.cluster_shield.features.container_vulnerability_management.enabled=true \
+    --set clusterShield.cluster_shield.features.audit.enabled=true \
+    --set clusterShield.cluster_shield.features.posture.enabled=true \
+    sysdig/sysdig-deploy
+```
