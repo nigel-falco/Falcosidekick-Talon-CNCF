@@ -459,5 +459,5 @@ helm install sysdig-agent --namespace sysdig-agent --create-namespace \
 
 Scan local configuration files as-code
 ```
-SECURE_API_TOKEN=**** ./sysdig-cli-scanner --iac --apiurl https://us2.app.sysdig.com/secure /Users/nigeldouglas/Desktop/manifests/*.yaml --list-unsupported-resources
+SECURE_API_TOKEN=**** ./sysdig-cli-scanner --iac --apiurl https://us2.app.sysdig.com/secure /Users/nigeldouglas/Desktop/manifests/*.yaml --list-unsupported-resources --output-json iac-scan.json
 ```
